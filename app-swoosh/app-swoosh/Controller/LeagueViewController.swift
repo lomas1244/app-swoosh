@@ -9,29 +9,43 @@
 import UIKit
 
 class LeagueViewController: UIViewController {
+    
+    var player: Player! //model that can store data
 
+    @IBOutlet weak var nextBtn: BorderButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        player = Player() //on loading the page a player is created
     }
     
     @IBAction func onNextTapped(_ sender: Any) {
         performSegue(withIdentifier: "skillViewControllerSegue", sender: self)
     }
 
-    
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    @IBAction func onMensTapped(_ sender: Any) {
+        selectLeague(leagueType: "mens")
     }
-    */
+    
+    @IBAction func onWomensTapped(_ sender: Any) {
+        selectLeague(leagueType: "womens")
+    }
+
+    
+    @IBAction func OnCoedTapped(_ sender: Any) {
+        selectLeague(leagueType: "coed")
+    }
+    
+    func selectLeague(leagueType: String) {
+        player.desiredLeague = leagueType
+        nextBtn.isEnabled = true
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let skillViewController = segue.destination as? SkillViewContoller {
+            skillViewController.player = player
+        }
+    }
 
 }
